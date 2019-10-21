@@ -1,0 +1,6 @@
+src/
+.babelrc
+webpack.config.js
+node_modules/
+yarn.lock
+.npmignore
