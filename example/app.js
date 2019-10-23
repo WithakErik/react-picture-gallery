@@ -8,7 +8,9 @@ for (let i = 0; i < 100; i++) {
     src: `https://picsum.photos/id/${i}/200/100`,
     thumbnail: `https://picsum.photos/id/${i}/200/100`,
     title: Math.ceil(Math.random() * 10).toString(),
-    timestamp: new Date(Math.floor(Math.random() * 100000000)).toDateString(),
+    timestamp: new Date(
+      Math.floor(Math.random() * 1000000000000) + 1000000000000
+    ).toDateString(),
     tags: [0, 0, 0, 0].map(() => `tag-${Math.floor(Math.random() * 100)}`),
     description: `Here is a description... Random number: ${Math.floor(
       Math.random() * 10
@@ -34,7 +36,7 @@ const App = () => (
     onClick={handleOnClick}
     tagSearch
     titleSearch
-    dateFilter
+    dateRange
     dateSort
     picturesPerPage={[5, 10, 25, 50]}
     // lightbox
