@@ -7,11 +7,11 @@ for (let i = 0; i < 100; i++) {
   data.push({
     src: `https://picsum.photos/id/${i}/200/100`,
     thumbnail: `https://picsum.photos/id/${i}/200/100`,
-    title: Math.ceil(Math.random() * 100).toString(),
+    title: Math.ceil(Math.random() * 10).toString(),
     timestamp: new Date(Math.floor(Math.random() * 100000000)).toDateString(),
     tags: [0, 0, 0, 0].map(() => `tag-${Math.floor(Math.random() * 100)}`),
     description: `Here is a description... Random number: ${Math.floor(
-      Math.random() * 100
+      Math.random() * 10
     )}`,
     height: "150px",
     width: "150px"
@@ -29,6 +29,7 @@ const galleryStyle = {
 const App = () => (
   <Gallery
     galleryStyle={galleryStyle}
+    pictureMargin="10px"
     pictures={pictures}
     onClick={handleOnClick}
     tagSearch

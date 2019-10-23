@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
-import * as styles from './styles';
-console.log(styles);
+import {
+  mainStyle,
+  picturesContainerStyle,
+  pictureStyle,
+  timestampStyle,
+  titleStyle
+} from './styles';
 
 const Pictures = props => {
   const pictureRenderer = (index, picture, onClick) => {
@@ -9,7 +14,7 @@ const Pictures = props => {
     let timestamp = `timestamp-${index}`;
     return (
       <span
-        style={styles.main}
+        style={{ margin: props.pictureMargin, ...mainStyle}}
         onMouseEnter={() => {
           document.getElementById(main).style.cursor = "pointer";
           document.getElementById(title).style.opacity = 1;
@@ -29,22 +34,22 @@ const Pictures = props => {
           alt={picture.alt}
           {...picture}
         />
-        <span id={title} style={{ ...styles.title }}>
+        <span id={title} style={{ ...titleStyle }}>
           {picture.title}
         </span>
-        <span id={timestamp} style={{ ...styles.timestamp }}>
+        <span id={timestamp} style={{ ...timestampStyle }}>
           {picture.timestamp}
         </span>
       </span>
     );
   };
-  const spacers = props.activePagePictures.map((picture, index) => (<span key={`spacer-${index}`} style={{ width: picture.width || '150px'}}></span>))
+  const spacers = props.activePagePictures.map((picture, index) => (<span key={`spacer-${index}`} style={{ width: picture.width || '150px', margin: props.pictureMargin || 0}}></span>))
   const pictures = props.activePagePictures.map((picture, index) =>
     pictureRenderer(index, picture, props.onClick)
   ).concat(spacers)
   return (
-    <div style={{gridArea: "b", overflowY: 'auto'}}>
-        <div style={styles.gallery}>{pictures}</div>
+    <div style={picturesContainerStyle}>
+        <div style={pictureStyle}>{pictures}</div>
     </div>
   )
 }

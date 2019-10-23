@@ -3,6 +3,7 @@ import Pictures from "./Pictures.jsx";
 import DatePicker from 'react-date-picker';
 import { Dropdown, Menu, Pagination } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
+import { defaultGalleryStyle, paginateStyle, menuStyle } from './styles.js'
 
 const Gallery = props => {
   // Props we might receive:
@@ -12,6 +13,8 @@ const Gallery = props => {
   //    dateSort      ->  Boolean
   //    onClick       ->  Function
   //    lightbox      ->  Boolean
+  //    galleryStyle  ->  Objecrt with valid JSX CSS
+  //    pictureMargin ->  Valid CSS for margin
   //    pictures      ->  Array
   //    |-src
   //    |-thumbnail   ->  String
@@ -25,7 +28,7 @@ const Gallery = props => {
 
   /*  Search states  */
   const [titleSearchQuery, setTitleSearchQuery] = useState();
-  const [tagSearchQuery, setTagearchQuery] = useState();
+  const [tagSearchQuery, setTagSearchQuery] = useState();
   const [dateRange, setDateRange] = useState();
   const [dateSort, setDateSort] = useState();
   const [filteredPictures, setFilteredPictures] = useState(props.pictures);
@@ -42,7 +45,7 @@ const Gallery = props => {
   useEffect(() => {
   });
   useEffect(() => {
-
+    updatePictures();
   }, [titleSearchQuery]);
   useEffect(() => {
 
@@ -54,69 +57,65 @@ const Gallery = props => {
 
   }, [dateSort]);
   useEffect(() => {
-
+    updateActivePagePictures();
   }, [activePage]);
   useEffect(() => {
-
+    updateActivePagePictures(1);
   }, [picturesPerPage]);
   useEffect(() => {
-
+    updateActivePagePictures(1);
   }, [filteredPictures]);
   useEffect(() => {
 
   }, [activePagePictures]);
 
+  const updateActivePagePictures = page => {
+    if(page) {
+      setActivePage(1);
+    }
+    const startPage = (page - 1 || activePage - 1) * picturesPerPage;
+    setActivePagePictures(filteredPictures.slice(startPage, startPage + picturesPerPage))
+  }
+
+
+
+  const updatePictures = (page) => {
+    if(page) {
+      setActivePage(page);
+    }
+    //  Handle title search
+    let pictures = props.pictures.filter(picture => picture.title === (titleSearchQuery || picture.title));
+
+    //  Handle tag search
+    console.log(pictures);
+    setFilteredPictures(pictures);
+  }
+
 
   /*  Title search  */
-  const handleTitleChange = (e, { value }) => {
-
-    updateFilter(value);
-  };
   const handleTitleSearchChange = (e, { value }) => {
-    updateFilter(value);
+    setTitleSearchQuery(value);
   };
 
+  /*  Tag search  */
+  const handleTagSearchChange = (e, { value }) => {
+    console.log(value)
+  }
 
 
-
-
-
-
-
-  const updateFilter = searchQuery => {
-    const filtered = props.pictures.filter(picture => {
-      return picture.title.includes(searchQuery);
-    });
-    setFilteredPictures(filtered);
-    updateActivePagePictures(1, picturesPerPage, filtered);
-  };
-
-  /*  Tags search  */
-
+  
 
   /*  Pagination  */
   const handlePageChange = (e, pageInfo) => {
-    setActivePage(Math.ceil(pageInfo.currentPage));
-  };
-  const updateActivePagePictures = (activePage, picturesPerPage, pictures) => {
-    const startPicture = (activePage - 1) * picturesPerPage;
-    setActivePagePictures(
-      pictures.slice(startPicture, startPicture + picturesPerPage)
-    );
+    setActivePage(Math.ceil(pageInfo.activePage));
   };
 
   /*  Pictures per page */
-  // const picturesPerPageCount = props.picturesPerPageCount || [5, 10, 25];
-  // let picturesPerPageOptions = [];
-  // for (let count of picturesPerPageCount) {
-  //   picturesPerPageOptions.push({ key: count, text: count, value: count });
-  // }
   const handlePicutresPerPageChange = (e, dropdownInfo) => {
     setPicturesPerPage(dropdownInfo.value);
-    updateActivePagePictures(1, dropdownInfo.value, filteredPictures);
   };
 
-  /*  Set up search information */
+  /*  Set up title search */
   const titleValues = props.pictures
     .reduce((total, current) => {
       total.push(current.title);
@@ -126,7 +125,7 @@ const Gallery = props => {
     .sort((a, b) => a - b);
   const titleSearchValues = titleValues.reduce((total, current, index) => {
     total.push({
-      key: `product-option-${index}`,
+      key: `title-option-${index}`,
       text: current,
       value: current,
       description: `${
@@ -136,21 +135,20 @@ const Gallery = props => {
     return total;
   }, []);
 
+  /*  Set up tag search  */
+  const tagValues = props.pictures
+    .reduce((total, current) => {
+      total.concat(current.tags);
+      return total;
+    }, [])
+  const tagSearchValues = [];
 
 
 
-
-
-
-  const gridAreas = `
-    "h"
-    "b"
-    "f"
-  `;
   return (
-    <div style={{ position: 'relative', display: 'grid', gridTemplateAreas: gridAreas, gridTemplateRows: '40px auto 40px', height: '100%', ...props.galleryStyle}}>
+    <div style={{...defaultGalleryStyle, ...props.galleryStyle}}>
       {props.dateFilter || props.dateSort || props.tagSearch || props.titleSearch ? (
-        <Menu fluid style={{ gridArea: 'h'}}>
+        <Menu fluid style={menuStyle}>
           <Dropdown
             fluid
             placeholder="Pictures Per Page"
@@ -158,9 +156,7 @@ const Gallery = props => {
             options={picturesPerPageOptions}
             onChange={handlePicutresPerPageChange}
           />
-
-
-
+        {props.titleSearch ? (
           <Dropdown
             fluid
             button
@@ -169,9 +165,22 @@ const Gallery = props => {
             clearable
             placeholder="Search"
             options={titleSearchValues}
-            onChange={handleTitleChange}
-            onSearchChange={handleTitleSearchChange}
+            onChange={handleTitleSearchChange}
           />
+        ) : null}
+        {props.tagSearch ? (
+          <Dropdown
+            fluid
+            button
+            search
+            selection
+            clearable
+            placeholder="Search"
+            options={tagSearchValues}
+            onChange={handleTagSearchChange}
+          />
+        ) : null}
+
         </Menu>
       ) : null}
       <Pictures {...props} activePagePictures={activePagePictures} />
@@ -180,12 +189,7 @@ const Gallery = props => {
         onPageChange={handlePageChange}
         ellipsisItem={null}
         totalPages={filteredPictures.length / picturesPerPage}
-        style={{
-          gridArea: 'f',
-          display: "flex",
-          justifyContent: "center",
-          width: "100%"
-        }}
+        style={paginateStyle}
       />
     </div>
   );
