@@ -9,7 +9,7 @@ for (let i = 0; i < 100; i++) {
     thumbnail: `https://picsum.photos/id/${i}/200/100`,
     title: Math.ceil(Math.random() * 10).toString(),
     timestamp: new Date(
-      Math.floor(Math.random() * 1000000000000) + 1000000000000
+      Math.floor(Math.random() * 1000000000000) + 100000000000
     ).toDateString(),
     tags: [0, 0, 0, 0].map(() => `tag-${Math.floor(Math.random() * 100)}`),
     description: `Here is a description... Random number: ${Math.floor(

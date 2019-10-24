@@ -6,25 +6,6 @@ import "semantic-ui-css/semantic.min.css";
 import { defaultGalleryStyle, paginateStyle, menuStyle } from './styles.js'
 
 const Gallery = props => {
-  // Props we might receive:
-  //    tagSearch     ->  Boolean
-  //    titleSearch   ->  Boolean
-  //    dateRange     ->  Boolean
-  //    dateSort      ->  Boolean
-  //    onClick       ->  Function
-  //    lightbox      ->  Boolean
-  //    galleryStyle  ->  Objecrt with valid JSX CSS
-  //    pictureMargin ->  Valid CSS for margin
-  //    pictures      ->  Array
-  //    |-src
-  //    |-thumbnail   ->  String
-  //    |-tags        ->  Array
-  //    |-title       ->  String
-  //    |-description ->  String
-  //    |-timestamp   ->  Date
-  //    |-height      ->  Valid CSS for height
-  //    |-width       ->  Valid CSS for width
-  //    |-Any other value that will be passed back to onClick()
 
   /*  Set up date range  */
   const sortedDates = props.pictures
@@ -35,8 +16,6 @@ const Gallery = props => {
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
   const startDate = sortedDates[0]
   const endDate = new Date(sortedDates[sortedDates.length - 1]).getTime() > new Date().getTime() ? new Date() : new Date(sortedDates[sortedDates.length - 1])
-  console.log(startDate, endDate)
-
 
   /*  Search states  */
   const [titleSearchQuery, setTitleSearchQuery] = useState();
@@ -123,7 +102,12 @@ const Gallery = props => {
 
   /*  Date range  */
   const handleDateRange = value => {
-    setDateRange(value);
+    if(value) {
+      setDateRange(value);
+    }
+    else {
+      setDateRange([startDate, endDate]);
+    }
   }
 
   /*  Pagination  */

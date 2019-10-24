@@ -1,6 +1,6 @@
 {
   "name": "react-picture-gallery",
-  "version": "1.4.1",
+  "version": "1.5.3",
   "description": "React Picture Gallery",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "webpack --mode production",
     "deploy": "gh-pages -d example/dist",
     "publish-demo": "npm run build && npm run deploy",
-    "push": "webpack build && npm publish"
+    "push": "yarn build && yarn deploy && npm publish"
   },
   "author": "Erik Withak",
   "license": "ISC",

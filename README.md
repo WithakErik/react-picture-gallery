@@ -1,27 +1,36 @@
 # This is an rough draft that I plan to refine in the near future
 
 ---
-# Pictures
+Live example [here](https://withakerik.github.io/react-picture-gallery/)
+# Examples
 
 ```
-pictures = [
+const pictures = [
   {
-    src: "https://dog.ceo/api/breeds/image/random", // text
-    thumbnail: "https://dog.ceo/api/breeds/image/random", // text
-    header: "Border Collie", // text or number
-    alt: "l0l @ this p00ch!", // text or number
-    footer: "Doggy dog" // text or number
+    src: "https://dog.ceo/api/breeds/image/random",         // string
+    thumbnail: "https://dog.ceo/api/breeds/image/random",   // string
+    title: "Border Collie",                                 // string or number
+    alt: "l0l @ this p00ch!",                               // string or number
+    description: "Doggy dog",                               // string or number
+    timestamp: 'july 4, 1776',                              // text - will be converted using new Date()
+    height: '100px',                                        // string - any valid CSS
+    width: '100px',                                         // string - any valid CSS
+    tags: ['funny', 'humor', 'l0l'],                        // array of strings or numbers
+    ...anyOtherValues                                       // all values will be returned when using onClick()
   }
 ];
+const otherOptions = {
+  tagSearch,                                                // boolean that enables searching by tags
+  titleSearch,                                              // boolean that enables searching by titles
+  dateRange,                                                // boolean that enables filtering by date range
+  dateSort,                                                 // coming soon!
+  onClick: picture => console.log(picture),                 // function that returns information tied to picture
+  lightbox,                                                 // coming soon!
+  galleryStyle: { backgroundColor: 'steelblue' },           // object - any valid JSX CSS
+  pictureMargin: '10px',                                    // text - any valid CSS
+  picturesPerPage: [5, 10, 25, 50, 100],                    // array of numbers
+}
 ```
-
-# Gallery
-
-```
-thumbnailHeight: "150px"                          //  Any valid CSS
-thumbnailWidth: "150px"                           //  Any valid CSS
-margin: "10px"                                    //  Any valid CSS
-pictures: pictures                                //  Array from above ^^^
-onClick: (picture) => (console.log(picture))      //  Function that will receive selected picture info
-galleryStyle: { backgroundColor: 'steelblue' }    //  Any valid CSS for JSX
-```
+---
+# Notes:
+Right now, if you want to use titleSearch, tagSearch, or dateRange you must supply the corrlating values to your pictures; this will be fixed in the near future.
