@@ -7,6 +7,13 @@ import { defaultGalleryStyle, paginateStyle, menuStyle } from './styles.js'
 
 const Gallery = props => {
 
+  /*  Validate (tag/title)Search/dateRan/picturesPerPage flags  */
+  const tagSearchIsEnabled = props.tagSearch && props.pictures.some(picture => picture.tags)
+  const titleSearchIsEnabled = props.titleSearch && props.pictures.some(picture => picture.title)
+  const dateRangeIsEnabled = props.dateRange && props.pictures.some(picture => picture.timestamp)
+  const dateSortIsEnabled = props.dateSort && props.pictures.some(picture => picture.timestamp)
+  const picturesPerPageIsEnabled = props.picturesPerPage.length
+
   /*  Set up date range  */
   const sortedDates = props.pictures
     .reduce((total, current) => {
@@ -21,7 +28,7 @@ const Gallery = props => {
   const [titleSearchQuery, setTitleSearchQuery] = useState();
   const [tagSearchQuery, setTagSearchQuery] = useState([]);
   const [dateRange, setDateRange] = useState([startDate, endDate]);
-  const [dateSort, setDateSort] = useState(0);
+  // const [dateSort, setDateSort] = useState(0);   // COMING SOON!!
   const [filteredPictures, setFilteredPictures] = useState(props.pictures);
 
   /*  Page states  */
@@ -30,58 +37,35 @@ const Gallery = props => {
   const [activePagePictures, setActivePagePictures] = useState(
     props.pictures.slice(0, picturesPerPage)
   );
-  const picturesPerPageOptions = (props.picturesPerPage ? props.picturesPerPage : [5, 10, 25]).map(count => ({key: count, text: count, value: count}));
+  const picturesPerPageOptions = props.picturesPerPage.map(count => ({key: count, text: count, value: count}));
 
-
-  useEffect(() => {
-  });
+  /*  Set up state change triggers  */
   useEffect(() => {
     updatePictures(1);
-  }, [titleSearchQuery]);
+  }, [titleSearchQuery, tagSearchQuery, dateRange]);
   useEffect(() => {
-    updatePictures(1);
-  }, [tagSearchQuery]);
-  useEffect(() => {
-    updatePictures(1);
-  }, [dateRange]);
-  useEffect(() => {
-
-  }, [dateSort]);
+    updateActivePagePictures(1);
+  }, [picturesPerPage, filteredPictures]);
   useEffect(() => {
     updateActivePagePictures();
   }, [activePage]);
-  useEffect(() => {
-    updateActivePagePictures(1);
-  }, [picturesPerPage]);
-  useEffect(() => {
-    updateActivePagePictures(1);
-  }, [filteredPictures]);
-  useEffect(() => {
-
-  }, [activePagePictures]);
 
   /*  Apply all filters and sorts  */
   const updatePictures = (page) => {
     if(page) {
       setActivePage(page);
     }
-    //  Handle title search
     let pictures = props.pictures.filter(picture => picture.title === (titleSearchQuery || picture.title));
-
-    //  Handle tag search
     if(tagSearchQuery.length) {
       pictures = pictures.filter(picture => tagSearchQuery.some(tag => picture.tags.some(pictureTag => pictureTag === tag)))
     }
-
-    //  Handle date range
-    if(dateRange.length) {
+    if(dateRangeIsEnabled && dateRange.length) {
       pictures = pictures.filter(picture => new Date(picture.timestamp).getTime() >= new Date(dateRange[0]).getTime() && new Date(picture.timestamp).getTime() <= new Date(dateRange[1]).getTime())
     }
-    //  Handle date sort
     setFilteredPictures(pictures);
   }
 
-  /*  Update visible pictures */
+  /*  Update visible pictures  */
   const updateActivePagePictures = page => {
     if(page) {
       setActivePage(1);
@@ -90,17 +74,13 @@ const Gallery = props => {
     setActivePagePictures(filteredPictures.slice(startPage, startPage + picturesPerPage))
   }
 
-  /*  Title search  */
+  /*  Handle searches and date range  */
   const handleTitleSearchChange = (e, { value }) => {
     setTitleSearchQuery(value);
-  };
-
-  /*  Tag search  */
+  }
   const handleTagSearchChange = (e, { value }) => {
     setTagSearchQuery(value);
   }
-
-  /*  Date range  */
   const handleDateRange = value => {
     if(value) {
       setDateRange(value);
@@ -110,17 +90,15 @@ const Gallery = props => {
     }
   }
 
-  /*  Pagination  */
+  /*  Handle pagination  */
   const handlePageChange = (e, pageInfo) => {
     setActivePage(Math.ceil(pageInfo.activePage));
   };
-
-  /*  Pictures per page */
   const handlePicutresPerPageChange = (e, dropdownInfo) => {
     setPicturesPerPage(dropdownInfo.value);
   };
 
-  /*  Set up title search */
+  /*  Set up search options  */
   const titleValues = props.pictures
     .reduce((total, current) => {
       total.push(current.title);
@@ -139,8 +117,6 @@ const Gallery = props => {
     });
     return total;
   }, []);
-
-  /*  Set up tag search  */
   const tagValues = props.pictures
     .reduce((total, current) => total.concat(current.tags), [])
     .filter((value, index, self) => self.indexOf(value) === index)
@@ -151,7 +127,7 @@ const Gallery = props => {
       text: current,
       value: current,
       description: `${
-        props.pictures.filter(picture => picture.tags.some(tag => tag === current)).length
+        props.pictures.filter(picture => picture.tags && picture.tags.some(tag => tag === current)).length
       }`
     })
     return total;
@@ -159,28 +135,28 @@ const Gallery = props => {
 
   return (
     <div style={{...defaultGalleryStyle, ...props.galleryStyle}}>
-      {props.dateFilter || props.dateSort || props.tagSearch || props.titleSearch ? (
+      {tagSearchIsEnabled || titleSearchIsEnabled || dateRangeIsEnabled || dateSortIsEnabled && picturesPerPageIsEnabled ? (
         <Menu fluid style={menuStyle}>
           <Dropdown
             fluid
-            placeholder="Pictures/Page"
             selection
             options={picturesPerPageOptions}
             onChange={handlePicutresPerPageChange}
+            value={picturesPerPage}
           />
-        {props.titleSearch ? (
+        {titleSearchIsEnabled ? (
           <Dropdown
             fluid
             button
             search
             selection
             clearable
-            placeholder="Search Titles"
+            placeholder="Titles"
             options={titleSearchValues}
             onChange={handleTitleSearchChange}
           />
         ) : null}
-        {props.tagSearch ? (
+        {tagSearchIsEnabled ? (
           <Dropdown
             fluid
             button
@@ -188,12 +164,12 @@ const Gallery = props => {
             multiple
             selection
             clearable
-            placeholder="Search Tags"
+            placeholder="Tags"
             options={tagSearchValues}
             onChange={handleTagSearchChange}
           />
         ) : null}
-        {props.dateRange ? (
+        {dateRangeIsEnabled ? (
           <DateRangePicker
             minDate={startDate}
             maxDate={new Date()}

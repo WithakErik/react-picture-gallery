@@ -1,7 +1,7 @@
 # This is an rough draft that I plan to refine in the near future
-
 ---
-Live example [here](https://withakerik.github.io/react-picture-gallery/)
+## Live example [here](https://withakerik.github.io/react-picture-gallery/)
+---
 # Examples
 
 ```
@@ -33,4 +33,4 @@ const otherOptions = {
 ```
 ---
 # Notes:
-Right now, if you want to use titleSearch, tagSearch, or dateRange you must supply the corrlating values to your pictures; this will be fixed in the near future.
+dateSort will be implamented next, and maybe title sort too?

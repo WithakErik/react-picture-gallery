@@ -31,7 +31,7 @@ const galleryStyle = {
 const App = () => (
   <Gallery
     galleryStyle={galleryStyle}
-    pictureMargin="10px"
+    // pictureMargin="10px"
     pictures={pictures}
     onClick={handleOnClick}
     tagSearch
