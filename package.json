@@ -1,6 +1,6 @@
 {
   "name": "react-picture-gallery",
-  "version": "1.5.4",
+  "version": "1.5.6",
   "description": "React Picture Gallery",
   "main": "index.js",
   "scripts": {
@@ -33,7 +33,5 @@
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2"
   },
-  "dependencies": {
-    "react-picture-gallery": "^1.4.1"
-  }
+  "dependencies": {}
 }
