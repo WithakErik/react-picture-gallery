@@ -3,7 +3,7 @@ import Pictures from "./Pictures.jsx";
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { Dropdown, Menu, Pagination } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
-import { defaultGalleryStyle, paginateStyle, menuStyle } from './styles.js'
+import { defaultGalleryStyle, menuStyle, paginateStyle, subMenuStyle } from './styles.js'
 
 const Gallery = props => {
 
@@ -26,7 +26,7 @@ const Gallery = props => {
 
   /*  Search states  */
   const [titleSearchQuery, setTitleSearchQuery] = useState();
-  const [tagSearchQuery, setTagSearchQuery] = useState([]);
+  const [tagSearchQuery, setTagSearchQuery] = useState();
   const [dateRange, setDateRange] = useState([startDate, endDate]);
   // const [dateSort, setDateSort] = useState(0);   // COMING SOON!!
   const [filteredPictures, setFilteredPictures] = useState(props.pictures);
@@ -55,10 +55,8 @@ const Gallery = props => {
     if(page) {
       setActivePage(page);
     }
-    let pictures = props.pictures.filter(picture => picture.title === (titleSearchQuery || picture.title));
-    if(tagSearchQuery.length) {
-      pictures = pictures.filter(picture => tagSearchQuery.some(tag => picture.tags.some(pictureTag => pictureTag === tag)))
-    }
+    let pictures = props.pictures.filter(picture => !titleSearchQuery || picture.title === titleSearchQuery);
+    pictures = pictures.filter(picture => picture.tags.some(pictureTag => !tagSearchQuery || pictureTag === tagSearchQuery));
     if(dateRangeIsEnabled && dateRange.length) {
       pictures = pictures.filter(picture => new Date(picture.timestamp).getTime() >= new Date(dateRange[0]).getTime() && new Date(picture.timestamp).getTime() <= new Date(dateRange[1]).getTime())
     }
@@ -100,10 +98,7 @@ const Gallery = props => {
 
   /*  Set up search options  */
   const titleValues = props.pictures
-    .reduce((total, current) => {
-      total.push(current.title);
-      return total;
-    }, [])
+    .reduce((total, current) => total.concat(current.title), [])
     .filter((value, index, self) => self.indexOf(value) === index)
     .sort((a, b) => a - b);
   const titleSearchValues = titleValues.reduce((total, current, index) => {
@@ -136,39 +131,38 @@ const Gallery = props => {
   return (
     <div style={{...defaultGalleryStyle, ...props.galleryStyle}}>
       {tagSearchIsEnabled || titleSearchIsEnabled || dateRangeIsEnabled || dateSortIsEnabled && picturesPerPageIsEnabled ? (
-        <Menu fluid style={menuStyle}>
-          <Dropdown
-            fluid
-            selection
-            options={picturesPerPageOptions}
-            onChange={handlePicutresPerPageChange}
-            value={picturesPerPage}
-          />
-        {titleSearchIsEnabled ? (
-          <Dropdown
-            fluid
-            button
-            search
-            selection
-            clearable
-            placeholder="Titles"
-            options={titleSearchValues}
-            onChange={handleTitleSearchChange}
-          />
-        ) : null}
-        {tagSearchIsEnabled ? (
-          <Dropdown
-            fluid
-            button
-            search
-            multiple
-            selection
-            clearable
-            placeholder="Tags"
-            options={tagSearchValues}
-            onChange={handleTagSearchChange}
-          />
-        ) : null}
+        <Menu style={menuStyle}>
+          <div style={subMenuStyle}>
+            <Dropdown
+              fluid
+              selection
+              options={picturesPerPageOptions}
+              onChange={handlePicutresPerPageChange}
+              value={picturesPerPage}
+            />
+          {titleSearchIsEnabled ? (
+            <Dropdown
+              fluid
+              selection
+              search
+              clearable
+              placeholder="Titles"
+              options={titleSearchValues}
+              onChange={handleTitleSearchChange}
+            />
+          ) : null}
+          {tagSearchIsEnabled ? (
+            <Dropdown
+              fluid
+              selection
+              search
+              clearable
+              placeholder="Tags"
+              options={tagSearchValues}
+              onChange={handleTagSearchChange}
+            />
+          ) : null}
+          </div>
         {dateRangeIsEnabled ? (
           <DateRangePicker
             minDate={startDate}
@@ -183,6 +177,7 @@ const Gallery = props => {
       <Pagination
         activePage={activePage}
         onPageChange={handlePageChange}
+        boundaryRange={0}
         ellipsisItem={null}
         totalPages={filteredPictures.length / picturesPerPage}
         style={paginateStyle}
