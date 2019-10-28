@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Pictures from "./Pictures.jsx";
+import Pictures from "./Pictures";
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { Dropdown, Menu, Pagination } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
-import { defaultGalleryStyle, paginateStyle, menuStyle } from './styles.js'
+import { defaultGalleryStyle, paginateStyle, menuStyle } from './styles'
 
-const PictureGallery = props => {
+const Gallery = props => {
 
   /*  Validate (tag/title)Search/dateRan/picturesPerPage flags  */
   const tagSearchIsEnabled = props.tagSearch && props.pictures.some(picture => picture.tags)
@@ -22,7 +22,7 @@ const PictureGallery = props => {
     }, [])
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
   const startDate = sortedDates[0]
-  const endDate = new Date(sortedDates[sortedDates.length - 1]).getTime() > new Date().getTime() ? new Date() : new Date(sortedDates[sortedDates.length - 1])
+  const endDate = new Date(sortedDates[sortedDates.length - 1]).getTime() > new Date().getTime() ? new Date() : new Date()
 
   /*  Search states  */
   const [titleSearchQuery, setTitleSearchQuery] = useState();
@@ -60,7 +60,7 @@ const PictureGallery = props => {
       pictures = pictures.filter(picture => tagSearchQuery.some(tag => picture.tags.some(pictureTag => pictureTag === tag)))
     }
     if(dateRangeIsEnabled && dateRange.length) {
-      pictures = pictures.filter(picture => new Date(picture.timestamp).getTime() >= new Date(dateRange[0]).getTime() && new Date(picture.timestamp).getTime() <= new Date(dateRange[1]).getTime())
+      pictures = pictures.filter(picture => new Date(picture.timestamp).getTime() >= new Date(dateRange[0]).getTime() && new Date(picture.timestamp).getTime() <= new Date().getTime())
     }
     setFilteredPictures(pictures);
   }
@@ -191,4 +191,4 @@ const PictureGallery = props => {
   );
 }
 
-export default PictureGallery;
+export default Gallery;
