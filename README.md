@@ -1,6 +1,5 @@
-# This is an rough draft that I plan to refine in the near future
----
 ## Live example [here](https://withakerik.github.io/react-picture-gallery/)
+## [GitHub](https://github.com/WithakErik/react-picture-gallery.git)
 ---
 # Examples
 
@@ -31,6 +30,3 @@ const otherOptions = {
   picturesPerPage: [5, 10, 25, 50, 100],                    // array of numbers
 }
 ```
----
-# Notes:
-dateSort will be implamented next, and maybe title sort too?

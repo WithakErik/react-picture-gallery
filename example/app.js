@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-import Gallery from "../src/Gallery";
+import Gallery from "../src/PictureGallery";
 
 const data = [];
 for (let i = 0; i < 100; i++) {

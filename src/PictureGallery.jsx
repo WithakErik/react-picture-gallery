@@ -5,7 +5,7 @@ import { Dropdown, Menu, Pagination } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import { defaultGalleryStyle, paginateStyle, menuStyle } from './styles.js'
 
-const Gallery = props => {
+const PictureGallery = props => {
 
   /*  Validate (tag/title)Search/dateRan/picturesPerPage flags  */
   const tagSearchIsEnabled = props.tagSearch && props.pictures.some(picture => picture.tags)
@@ -191,4 +191,4 @@ const Gallery = props => {
   );
 }
 
-export default Gallery;
+export default PictureGallery;
