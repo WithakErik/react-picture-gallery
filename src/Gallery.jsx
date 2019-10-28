@@ -21,14 +21,13 @@ const Gallery = props => {
       return total;
     }, [])
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-  const startDate = sortedDates[0]
-  const endDate = new Date(sortedDates[sortedDates.length - 1]).getTime() > new Date().getTime() ? new Date() : new Date()
+  const startDate = new Date(sortedDates[0]);
+  const endDate = new Date();
 
   /*  Search states  */
   const [titleSearchQuery, setTitleSearchQuery] = useState();
   const [tagSearchQuery, setTagSearchQuery] = useState([]);
   const [dateRange, setDateRange] = useState([startDate, endDate]);
-  // const [dateSort, setDateSort] = useState(0);   // COMING SOON!!
   const [filteredPictures, setFilteredPictures] = useState(props.pictures);
 
   /*  Page states  */
@@ -60,7 +59,8 @@ const Gallery = props => {
       pictures = pictures.filter(picture => tagSearchQuery.some(tag => picture.tags.some(pictureTag => pictureTag === tag)))
     }
     if(dateRangeIsEnabled && dateRange.length) {
-      pictures = pictures.filter(picture => new Date(picture.timestamp).getTime() >= new Date(dateRange[0]).getTime() && new Date(picture.timestamp).getTime() <= new Date().getTime())
+      pictures = pictures.filter(picture => new Date(picture.timestamp).getTime() >= new Date(dateRange[0]).getTime()
+        && new Date(picture.timestamp).getTime() <= new Date(dateRange[1]).getTime());
     }
     setFilteredPictures(pictures);
   }

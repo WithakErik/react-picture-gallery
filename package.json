@@ -1,6 +1,6 @@
 {
   "name": "react-picture-gallery",
-  "version": "1.6.6",
+  "version": "1.6.12",
   "description": "React Picture Gallery",
   "main": "lib/index.js",
   "scripts": {
