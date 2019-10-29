@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Pictures from "./Pictures.jsx";
+import Pictures from "./Pictures";
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { Dropdown, Menu, Pagination } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
@@ -21,14 +21,13 @@ const Gallery = props => {
       return total;
     }, [])
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-  const startDate = sortedDates[0]
-  const endDate = new Date(sortedDates[sortedDates.length - 1]).getTime() > new Date().getTime() ? new Date() : new Date(sortedDates[sortedDates.length - 1])
+  const startDate = new Date(sortedDates[0]);
+  const endDate = new Date();
 
   /*  Search states  */
   const [titleSearchQuery, setTitleSearchQuery] = useState();
   const [tagSearchQuery, setTagSearchQuery] = useState();
   const [dateRange, setDateRange] = useState([startDate, endDate]);
-  // const [dateSort, setDateSort] = useState(0);   // COMING SOON!!
   const [filteredPictures, setFilteredPictures] = useState(props.pictures);
 
   /*  Page states  */
@@ -58,7 +57,8 @@ const Gallery = props => {
     let pictures = props.pictures.filter(picture => !titleSearchQuery || picture.title === titleSearchQuery);
     pictures = pictures.filter(picture => picture.tags.some(pictureTag => !tagSearchQuery || pictureTag === tagSearchQuery));
     if(dateRangeIsEnabled && dateRange.length) {
-      pictures = pictures.filter(picture => new Date(picture.timestamp).getTime() >= new Date(dateRange[0]).getTime() && new Date(picture.timestamp).getTime() <= new Date(dateRange[1]).getTime())
+      pictures = pictures.filter(picture => new Date(picture.timestamp).getTime() >= new Date(dateRange[0]).getTime()
+        && new Date(picture.timestamp).getTime() <= new Date(dateRange[1]).getTime());
     }
     setFilteredPictures(pictures);
   }

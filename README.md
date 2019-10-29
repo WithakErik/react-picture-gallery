@@ -1,10 +1,7 @@
-# This is an rough draft that I plan to refine in the near future
----
 ## Live example [here](https://withakerik.github.io/react-picture-gallery/)
+## [GitHub](https://github.com/WithakErik/react-picture-gallery.git)
 ---
 # Examples
-
-```
 const pictures = [
   {
     src: "https://media.tenor.com/images/916c85aa24280f510de1e985ad718267/tenor.gif",         // string
@@ -12,7 +9,7 @@ const pictures = [
     title: "Border Collie",           // string or number
     alt: "l0l @ this p00ch!",         // string or number
     description: "Doggy dog",         // string or number
-    timestamp: 'july 4, 1776',        // text - will be converted using new Date()
+    timestamp: 'july 4, 1776',        // valid date - will be converted using new Date()
     height: '100px',                  // string - any valid CSS
     width: '100px',                   // string - any valid CSS
     tags: ['funny', 'humor', 'l0l'],  // array of strings or numbers
@@ -31,6 +28,3 @@ const otherOptions = {
   picturesPerPage: [5, 10, 25, 50, 100],            // array of numbers
 }
 ```
----
-# Notes:
-dateSort will be implamented next, and maybe title sort too?

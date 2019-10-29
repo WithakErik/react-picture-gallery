@@ -1,6 +1,8 @@
-src/
 .babelrc
-webpack.config.js
-node_modules/
-yarn.lock
+.gitignore
 .npmignore
+webpack.config.js
+yarn.lock
+example/
+node_modules/
+src/
