@@ -17,11 +17,15 @@ const Pictures = props => {
         style={{ margin: props.pictureMargin, ...mainStyle}}
         onMouseEnter={() => {
           document.getElementById(main).style.cursor = "pointer";
-          document.getElementById(title).style.opacity = 1;
+          if (picture.title) {
+            document.getElementById(title).style.opacity = 1;
+          }
         }}
         onMouseLeave={() => {
           document.getElementById(main).style.cursor = null;
-          document.getElementById(title).style.opacity = 0;
+          if (picture.title) {
+            document.getElementById(title).style.opacity = 0;
+          }
         }}
         id={`main-${index}`}
         key={`main-${index}`}
@@ -32,18 +36,27 @@ const Pictures = props => {
           width={picture.width || '150px'}
           margin={picture.margin || 0}
           alt={picture.alt}
-          {...picture}
+          src={picture.thumbnail}
         />
-        <span id={title} style={{ ...titleStyle }}>
-          {picture.title}
-        </span>
-        <span id={timestamp} style={{ ...timestampStyle }}>
-          {picture.timestamp}
-        </span>
+        {picture.title ? (
+          <span id={title} style={{ ...titleStyle }}>
+            {picture.title}
+          </span>
+        ) : null}
+        {picture.timestamp ? (
+          <span id={timestamp} style={{ ...timestampStyle }}>
+            {picture.timestamp}
+          </span>
+        ) : null}
       </span>
     );
   };
-  const spacers = props.activePagePictures.map((picture, index) => (<span key={`spacer-${index}`} style={{ width: picture.width || '150px', margin: props.pictureMargin || 0}}></span>))
+  const spacers = props.activePagePictures.map((picture, index) => (
+    <span
+      key={`spacer-${index}`}
+      style={{ width: picture.width || '150px', margin: `0 ${props.pictureMargin || 0}`}}
+    />
+  ));
   const pictures = props.activePagePictures.map((picture, index) =>
     pictureRenderer(index, picture, props.onClick)
   ).concat(spacers)

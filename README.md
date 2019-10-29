@@ -25,6 +25,6 @@ const otherOptions = {
   onClick: picture => console.log(picture),         // function that returns information tied to picture
   galleryStyle: { backgroundColor: 'steelblue' },   // object - any valid JSX CSS
   pictureMargin: '10px',                            // text - any valid CSS
-  picturesPerPage: [5, 10, 25, 50, 100],            // array of numbers
+  picturesPerPage: [5, 10, 25, 50, 100],            // array of numbers - default is [5, 10, 25, 50]
 }
 ```

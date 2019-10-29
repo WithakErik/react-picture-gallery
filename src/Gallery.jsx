@@ -11,8 +11,6 @@ const Gallery = props => {
   const tagSearchIsEnabled = props.tagSearch && props.pictures.some(picture => picture.tags)
   const titleSearchIsEnabled = props.titleSearch && props.pictures.some(picture => picture.title)
   const dateRangeIsEnabled = props.dateRange && props.pictures.some(picture => picture.timestamp)
-  const dateSortIsEnabled = props.dateSort && props.pictures.some(picture => picture.timestamp)
-  const picturesPerPageIsEnabled = props.picturesPerPage.length
 
   /*  Set up date range  */
   const sortedDates = props.pictures
@@ -32,11 +30,11 @@ const Gallery = props => {
 
   /*  Page states  */
   const [activePage, setActivePage] = useState(1);
-  const [picturesPerPage, setPicturesPerPage] = useState(props.picturesPerPage ? props.picturesPerPage[0] : 10);
+  const [picturesPerPage, setPicturesPerPage] = useState(props.picturesPerPage ? props.picturesPerPage[0] : 5);
   const [activePagePictures, setActivePagePictures] = useState(
     props.pictures.slice(0, picturesPerPage)
   );
-  const picturesPerPageOptions = props.picturesPerPage.map(count => ({key: count, text: count, value: count}));
+  const picturesPerPageOptions = (props.picturesPerPage || [5, 10, 25, 50]).map(count => ({key: count, text: count, value: count}));
 
   /*  Set up state change triggers  */
   useEffect(() => {
@@ -54,9 +52,9 @@ const Gallery = props => {
     if(page) {
       setActivePage(page);
     }
-    let pictures;
+    let pictures = props.pictures;
     if(titleSearchIsEnabled) {
-      pictures = props.pictures.filter(picture => !titleSearchQuery || picture.title === titleSearchQuery);
+      pictures = pictures.filter(picture => !titleSearchQuery || picture.title === titleSearchQuery);
     }
     if(tagSearchIsEnabled) {
       pictures = pictures.filter(picture => picture.tags.some(pictureTag => !tagSearchQuery || pictureTag === tagSearchQuery));
@@ -135,7 +133,6 @@ const Gallery = props => {
 
   return (
     <div style={{...defaultGalleryStyle, ...props.galleryStyle}}>
-      {tagSearchIsEnabled || titleSearchIsEnabled || dateRangeIsEnabled || dateSortIsEnabled && picturesPerPageIsEnabled ? (
         <Menu style={menuStyle}>
           <div style={subMenuStyle}>
             <Dropdown
@@ -177,7 +174,6 @@ const Gallery = props => {
           />
         ) : null}
         </Menu>
-      ) : null}
       <Pictures {...props} activePagePictures={activePagePictures} />
       <Pagination
         activePage={activePage}

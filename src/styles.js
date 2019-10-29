@@ -11,8 +11,8 @@ module.exports.menuStyle = {
   flexDirection: "column",
   alignItems: "center",
   position: "relative",
-  /*  Next line (padding: "0 3px 15px") adjustd styling to handle issues of react-daterange-picker overflowing  */
-  padding: "0 3px 15px"
+  /*  Next line (padding: "0 3px 25px") adjustd styling to handle issues of react-daterange-picker overflowing  */
+  padding: "0 3px 25px"
 };
 module.exports.subMenuStyle = {
   display: "flex",
