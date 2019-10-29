@@ -2,6 +2,7 @@
 ## [GitHub](https://github.com/WithakErik/react-picture-gallery.git)
 ---
 # Examples
+```
 const pictures = [
   {
     src: "https://media.tenor.com/images/916c85aa24280f510de1e985ad718267/tenor.gif",         // string
