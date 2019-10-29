@@ -1,4 +1,5 @@
 ## Live example [here](https://withakerik.github.io/react-picture-gallery/)
+![altText](https://i.imgur.com/PZrnx1t.jpg "Totally awesome react picture gallery!")
 ## [GitHub](https://github.com/WithakErik/react-picture-gallery.git)
 ---
 # Examples
