@@ -1,22 +1,31 @@
-/*  Gallery.jsx  */
-const gridAreas = `
-  "h"
-  "b"
-  "f"
-`;
 module.exports.defaultGalleryStyle = {
   position: "relative",
-  display: "grid",
-  gridTemplateAreas: gridAreas,
-  gridTemplateRows: "40px auto 40px",
-  height: "100%"
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+  justifyContent: "space-between",
+  alignItems: "center"
 };
-module.exports.menuStyle = { gridArea: "h" };
+module.exports.menuStyle = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  position: "relative",
+  /*  Next line (padding: "0 3px 15px") adjustd styling to handle issues of react-daterange-picker overflowing  */
+  padding: "0 3px 15px"
+};
+module.exports.subMenuStyle = {
+  display: "flex",
+  alignItems: "center",
+  position: "relative",
+  width: "100%",
+  padding: "3px"
+};
 module.exports.paginateStyle = {
-  gridArea: "f",
   display: "flex",
   justifyContent: "center",
-  width: "100%"
+  width: "100%",
+  position: "relative"
 };
 
 /*  Pictures.jsx  */
@@ -26,8 +35,8 @@ module.exports.pictureStyle = {
   flexWrap: "wrap"
 };
 module.exports.picturesContainerStyle = {
-  gridArea: "b",
-  overflowY: "auto"
+  overflowY: "auto",
+  height: "100%"
 };
 module.exports.titleStyle = {
   opacity: 0,
