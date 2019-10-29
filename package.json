@@ -2,6 +2,11 @@
   "name": "react-picture-gallery",
   "version": "1.6.12",
   "description": "React Picture Gallery",
+  "homepage": "https://github.com/WithakErik/react-picture-gallery.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WithakErik/react-picture-gallery.git"
+  },
   "main": "lib/index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
