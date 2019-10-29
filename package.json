@@ -1,8 +1,8 @@
 {
   "name": "react-picture-gallery",
-  "version": "1.6.12",
+  "version": "1.6.15",
   "description": "React Picture Gallery",
-  "homepage": "https://github.com/WithakErik/react-picture-gallery.git",
+  "homepage": "https://withakerik.github.io/react-picture-gallery/",
   "repository": {
     "type": "git",
     "url": "https://github.com/WithakErik/react-picture-gallery.git"
