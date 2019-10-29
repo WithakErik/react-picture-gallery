@@ -54,8 +54,13 @@ const Gallery = props => {
     if(page) {
       setActivePage(page);
     }
-    let pictures = props.pictures.filter(picture => !titleSearchQuery || picture.title === titleSearchQuery);
-    pictures = pictures.filter(picture => picture.tags.some(pictureTag => !tagSearchQuery || pictureTag === tagSearchQuery));
+    let pictures;
+    if(titleSearchIsEnabled) {
+      pictures = props.pictures.filter(picture => !titleSearchQuery || picture.title === titleSearchQuery);
+    }
+    if(tagSearchIsEnabled) {
+      pictures = pictures.filter(picture => picture.tags.some(pictureTag => !tagSearchQuery || pictureTag === tagSearchQuery));
+    }
     if(dateRangeIsEnabled && dateRange.length) {
       pictures = pictures.filter(picture => new Date(picture.timestamp).getTime() >= new Date(dateRange[0]).getTime()
         && new Date(picture.timestamp).getTime() <= new Date(dateRange[1]).getTime());

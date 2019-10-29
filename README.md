@@ -22,9 +22,7 @@ const otherOptions = {
   tagSearch,                                        // boolean that enables searching by tags
   titleSearch,                                      // boolean that enables searching by titles
   dateRange,                                        // boolean that enables filtering by date range
-  dateSort,                                         // coming soon!
   onClick: picture => console.log(picture),         // function that returns information tied to picture
-  lightbox,                                         // coming soon!
   galleryStyle: { backgroundColor: 'steelblue' },   // object - any valid JSX CSS
   pictureMargin: '10px',                            // text - any valid CSS
   picturesPerPage: [5, 10, 25, 50, 100],            // array of numbers
