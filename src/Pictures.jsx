@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  mainStyle,
-  picturesContainerStyle,
-  pictureStyle,
-  timestampStyle,
-  titleStyle
-} from './styles';
+import './styles.css';
 
 const Pictures = props => {
   const pictureRenderer = (index, picture, onClick) => {
@@ -14,7 +8,8 @@ const Pictures = props => {
     let timestamp = `timestamp-${index}`;
     return (
       <span
-        style={{ margin: props.pictureMargin, ...mainStyle}}
+        style={{ margin: props.pictureMargin }}
+        className="main"
         onMouseEnter={() => {
           document.getElementById(main).style.cursor = "pointer";
           if (picture.title) {
@@ -39,12 +34,12 @@ const Pictures = props => {
           src={picture.thumbnail}
         />
         {picture.title ? (
-          <span id={title} style={{ ...titleStyle }}>
+          <span id={title} className="title">
             {picture.title}
           </span>
         ) : null}
         {picture.timestamp ? (
-          <span id={timestamp} style={{ ...timestampStyle }}>
+          <span id={timestamp} className="timestamp">
             {picture.timestamp}
           </span>
         ) : null}
@@ -61,8 +56,8 @@ const Pictures = props => {
     pictureRenderer(index, picture, props.onClick)
   ).concat(spacers)
   return (
-    <div style={picturesContainerStyle}>
-        <div style={pictureStyle}>{pictures}</div>
+    <div className="pictures-container">
+        <div className="picture">{pictures}</div>
     </div>
   )
 }

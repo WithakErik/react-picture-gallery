@@ -1,0 +1,65 @@
+#gallery {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+#menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  /*  Next line (padding: 0 3px 25px) adjustd styling to handle issues of react-daterange-picker overflowing  */
+  padding: 0 3px 25px;
+}
+#sub-menu {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  padding: 3px;
+}
+#paginate {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+
+/*  Pictures.jsx  */
+.pictures-container {
+  overflow-y: auto;
+  height: 100%;
+}
+.picture {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.title {
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.69);
+  text-align: center;
+  color: white;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  transition: 222ms;
+}
+.main {
+  position: relative;
+  line-height: 1
+}
+.timestamp {
+  background-color: rgba(0, 0, 0, 0.69);
+  text-align: center;
+  color: white;
+  position: absolute;
+  width: 100%;
+  padding: 3px 0;
+  margin: 0;
+  left: 0;
+  bottom: 0;
+}

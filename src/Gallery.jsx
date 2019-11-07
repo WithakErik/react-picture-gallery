@@ -3,7 +3,7 @@ import Pictures from "./Pictures";
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { Dropdown, Menu, Pagination } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
-import { defaultGalleryStyle, menuStyle, paginateStyle, subMenuStyle } from './styles.js'
+import "./styles.css"
 
 const Gallery = props => {
 
@@ -132,9 +132,9 @@ const Gallery = props => {
   }, []);
 
   return (
-    <div style={{...defaultGalleryStyle, ...props.galleryStyle}}>
-        <Menu style={menuStyle}>
-          <div style={subMenuStyle}>
+    <div id="gallery" style={props.galleryStyle}>
+        <Menu id="menu">
+          <div id="sub-menu">
             <Dropdown
               fluid
               selection
@@ -181,7 +181,7 @@ const Gallery = props => {
         boundaryRange={0}
         ellipsisItem={null}
         totalPages={filteredPictures.length / picturesPerPage}
-        style={paginateStyle}
+        id="paginate"
       />
     </div>
   );
